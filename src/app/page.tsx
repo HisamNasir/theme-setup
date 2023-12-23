@@ -20,13 +20,21 @@ export default function Home() {
   }, []);
 
   return (
-    <section className='py-10 px-2'>
+    <section className='py-10 px-2 transition-colors duration-200'>
       <div className='container flex flex-col items-center gap-4'>
         {cars.map((car, index) => (
-          <Card key={index} className='py-4 px-3 lg:w-3/4 xl:w-1/2'>
+          <Card key={index} className='py-4 px-3 bg-opacity-50 lg:w-3/4 xl:w-1/2'>
             <CardBody className='overflow-visible py-2'>
               <div className='flex max-sm:flex-col gap-6'>
-                <Image alt={car.name} width={200} height={200} className='flex-1 object-scale-down' src={car.imageUrl} />
+                <Image
+                  alt={car.name}
+                  width={200}
+                  height={200}
+                  className='flex-1 object-scale-down'
+                  src={car.imageUrl}
+                  style={{ width: "100%", height: "auto" }} // This maintains aspect ratio
+                />
+
                 <div className='flex-1'>
                   <h2 className='text-lg font-bold uppercase'>{car.name}</h2>
                   <p className='text-sm text-default-500'>{car.type}</p>
@@ -35,7 +43,7 @@ export default function Home() {
                     <span className={car.status === 'Out of Order' ? 'text-error' : 'text-success'}>{car.status}</span>
                   </div>
                   {car.status === 'Out of Order' ? (
-                    <Button  disabled  radius='full'>
+                    <Button disabled radius='full'>
                       Out of Order
                     </Button>
                   ) : (

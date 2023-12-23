@@ -1,83 +1,113 @@
 'use client'
-import React from "react";
-import {Navbar, NavbarBrand, NavbarMenuToggle, NavbarMenuItem, NavbarMenu, NavbarContent, NavbarItem, Link, Button} from "@nextui-org/react";
-import { useEffect, useState } from 'react'
-import { useTheme } from 'next-themes'
+import React, { useEffect, useState } from 'react';
+import { Navbar, NavbarContent, NavbarMenuToggle, NavbarMenuItem, NavbarMenu, Link, Button, ButtonGroup } from "@nextui-org/react";
+import { useTheme } from 'next-themes';
+import { FaBeer, FaMoon, FaSun } from "react-icons/fa";
+
+const themes = ['light', 'dark', 'purple', 'amber', 'green', 'sky', 'red', 'brown'];
 
 export default function NavbarComp() {
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-  const [mounted, setMounted] = useState(false)
-  const { theme, setTheme } = useTheme()
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const { theme, setTheme } = useTheme();
+  const [themeIndex, setThemeIndex] = useState(0);
 
   useEffect(() => {
-    setMounted(true)
-  }, [])
-  const handleThemeChange = (selectedTheme) => {
+    setMounted(true);
+
+    // Change theme in a loop every 2 seconds
+    const intervalId = setInterval(() => {
+      const nextTheme = themes[themeIndex];
+      handleThemeChange(nextTheme);
+      setThemeIndex((prevIndex) => (prevIndex + 1) % themes.length);
+    }, 2000);
+
+    // Clear the interval on component unmount
+    return () => clearInterval(intervalId);
+  }, [themeIndex]);
+
+  const handleThemeChange = (selectedTheme: string) => {
     console.log(`Changing to theme: ${selectedTheme}`);
-    setTheme(selectedTheme);   window.location.reload();
+    setTheme(selectedTheme);
   };
 
-  if (!mounted) return null
-  const menuItems = [
-    <div className=" grid grid-cols-3 gap-4">
-    <Button size='sm' variant='flat' radius='full' color='primary' onClick={() =>  handleThemeChange('light')}>
-    Light
-  </Button>
-  <Button size='sm' variant='flat' radius='full' color='primary' onClick={() =>  handleThemeChange('dark')}>
-    Dark
-  </Button>
-  <Button size='sm' variant='flat' radius='full' color='primary' onClick={() =>  handleThemeChange('purple')}>
-    Purple
-  </Button>
-  <Button size='sm' variant='flat' radius='full' color='primary' onClick={() =>  handleThemeChange('amber')}>
-    Amber
-  </Button>
-  <Button size='sm' variant='flat' radius='full' color='primary' onClick={() =>  handleThemeChange('green')}>
-    Green
-  </Button>
-  <Button size='sm' variant='flat' radius='full' color='primary' onClick={() =>  handleThemeChange('sky')}>
-    Sky
-  </Button>
-  <Button size='sm' variant='flat' radius='full' color='primary' onClick={() =>  handleThemeChange('red')}>
-    Red
-  </Button>
-  <Button size='sm' variant='flat' radius='full' color='primary' onClick={() =>  handleThemeChange('brown')}>
-    Brown
-  </Button>
-    </div>
-  ];
+  if (!mounted) return null;
 
   return (
-    <Navbar
-      isBordered
-      isMenuOpen={isMenuOpen}
-      onMenuOpenChange={setIsMenuOpen}
-    >
-      <NavbarContent justify="start">
-        logo
-      </NavbarContent>
+    
+    <Navbar className='fixed top-0 w-full z-10' isBordered isMenuOpen={isMenuOpen} onMenuOpenChange={setIsMenuOpen}>
+      <NavbarContent justify="start">logo</NavbarContent>
       <NavbarContent justify="end">
         <NavbarMenuToggle aria-label={isMenuOpen ? "Close menu" : "Open menu"} />
       </NavbarContent>
-
-
-
       <NavbarMenu>
-        {menuItems.map((item, index) => (
-          <NavbarMenuItem key={`${item}-${index}`}>
-            <Link
-              className="w-full"
-              color={
-                index === 2 ? "warning" : index === menuItems.length - 1 ? "danger" : "foreground"
-              }
-              href="#"
-              size="lg"
+        {themes.map((currentTheme, index) => (
+          <NavbarMenuItem key={currentTheme}>
+            <Button 
+              size='sm'
+              variant={theme !== currentTheme ? 'light' : 'flat'}
+              onClick={() => handleThemeChange(currentTheme)}
+              style={{ transition: 'all 1s ease' }} // Smooth transition effect
             >
-              {item}
-            </Link>
+              {index === 0 ? <FaSun /> : index === 1 ? <FaMoon /> : currentTheme}
+            </Button>
           </NavbarMenuItem>
         ))}
       </NavbarMenu>
     </Navbar>
   );
 }
+
+// import React, { useEffect, useState } from 'react';
+// import { Navbar, NavbarContent, NavbarMenuToggle, NavbarMenuItem, NavbarMenu, Link, Button, ButtonGroup } from "@nextui-org/react";
+// import { useTheme } from 'next-themes';
+// import { FaBeer, FaMoon, FaSun } from "react-icons/fa";
+
+// export default function NavbarComp() {
+//   const [isMenuOpen, setIsMenuOpen] = useState(false);
+//   const [mounted, setMounted] = useState(false);
+//   const { theme, setTheme } = useTheme();
+
+//   useEffect(() => {
+//     setMounted(true);
+//   }, [theme]);
+
+//   const handleThemeChange = (selectedTheme: string) => {
+//     setTheme(selectedTheme);
+//   };
+
+//   if (!mounted) return null;
+
+//   const themeButtons = [
+//     { theme: 'light', icon: <FaSun /> },
+//     { theme: 'dark', icon: <FaMoon /> },
+//     { theme: 'purple', label: 'Purple' },
+//     { theme: 'amber', label: 'Amber' },
+//     { theme: 'green', label: 'Green' },
+//     { theme: 'sky', label: 'Sky' },
+//     { theme: 'red', label: 'Red' },
+//     { theme: 'brown', label: 'Brown' }
+//   ];
+
+//   return (
+//     <Navbar className='fixed top-0 w-full z-10' isBordered isMenuOpen={isMenuOpen} onMenuOpenChange={setIsMenuOpen}>
+//       <NavbarContent justify="start">logo</NavbarContent>
+//       <NavbarContent justify="end">
+//         <NavbarMenuToggle aria-label={isMenuOpen ? "Close menu" : "Open menu"} />
+//       </NavbarContent>
+//       <NavbarMenu className=' flex flex-col gap-2 items-center '>
+//         {themeButtons.map((button, index) => (
+//           <NavbarMenuItem className='w-full max-w-2xl p-2' key={button.theme}>
+//             <Button className='w-full'
+//               size='sm'
+//               variant={button.theme !== 'light' && button.theme !== 'dark' ? 'light' : 'flat'}
+//               onClick={() => handleThemeChange(button.theme)}
+//             >
+//               {button.icon || button.label}
+//             </Button>
+//           </NavbarMenuItem>
+//         ))}
+//       </NavbarMenu>
+//     </Navbar>
+//   );
+// }
