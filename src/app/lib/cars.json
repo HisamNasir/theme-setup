@@ -1,0 +1,51 @@
+[
+    {
+      "name": "Maybach",
+      "type": "Luxury Car",
+      "price": 100000,
+      "imageUrl": "/images/Maybach.png",
+      "addOns": true,
+      "status": "Available"
+    },
+    {
+      "name": "Mercedes-Benz S-Class",
+      "type": "Sedan",
+      "price": 85000,
+      "imageUrl": "/images/S_Class.png",
+      "addOns": false,
+      "status": "Out of Order"
+    },
+    {
+      "name": "Mercedes-AMG GT",
+      "type": "Sports Car",
+      "price": 130000,
+      "imageUrl": "/images/AMGGt.png",
+      "addOns": true,
+      "status": "Available"
+    },
+    {
+      "name": "Mercedes-Benz Van",
+      "type": "SUV",
+      "price": 75000,
+      "imageUrl": "/images/Van.png",
+      "addOns": false,
+      "status": "Available"
+    },
+    {
+      "name": "Mercedes-Benz GLC",
+      "type": "Compact SUV",
+      "price": 65000,
+      "imageUrl": "/images/SUV.png",
+      "addOns": true,
+      "status": "Available"
+    },
+    {
+      "name": "Mercedes-Maybach GT",
+      "type": "Compact Sports Car",
+      "price": 160000,
+      "imageUrl": "/images/SportGT.png",
+      "addOns": true,
+      "status": "Out of Order"
+    }
+  ]
+  
